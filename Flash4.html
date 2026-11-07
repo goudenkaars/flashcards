@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mijn Eigen Flashcards</title>
+    <style>
+        body { 
+		font-family: Arial, sans-serif; 
+		display: flex;
+		justify-content: center;
+		align-items: center; 
+		min-height: 100vh; 
+		background: #f0f2f5;
+		margin: 0; 
+	}
+        .card-container { 
+		text-align: center; 
+	}
+        .card { width: 400px;
+		min-height: 200px;
+		background: white; 
+		border-radius: 12px; 
+		display: flex; 
+		justify-content: center; 
+		align-items: center; 
+		font-size: 18px; 
+		font-weight: bold; 
+		box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+		cursor: pointer; 
+		padding: 25px; 
+		user-select: none; 
+		transition: transform 0.2s;
+		text-align: center; 
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+	}
+	.card b { 
+		color: orange;
+	}
+        .card:active { transform: scale(0.98); }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="card" id="flashcard" onclick="flipCard()">Laad de eerste kaart hoofdstuk4 hardware-onderdelen...</div>
+    <button onclick="nextCard()">Volgende Kaart</button>
+</div>
+
+<script>
+    // Jouw database met vragen en antwoorden
+    const flashcards = [
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+        { 
+            vraag: "", 
+            antwoord: "" 
+        },
+
+    ];
+
+    let currentIndex = 0;
+    let showingAnswer = false;
+
+    function updateCard() {
+        const cardElement = document.getElementById("flashcard");
+        if (showingAnswer) {
+            cardElement.innerHTML = flashcards[currentIndex].antwoord; // innerHTML zodat de <b> tags werken
+            cardElement.style.background = "#e6f4ea"; // Groenachtig bij antwoord
+        } else {
+            cardElement.innerHTML = flashcards[currentIndex].vraag;
+            cardElement.style.background = "white";
+        }
+    }
+
+    function flipCard() {
+        showingAnswer = !showingAnswer;
+        updateCard();
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        showingAnswer = false;
+        updateCard();
+    }
+
+    // Start het spel
+    updateCard();
+</script>
+
+</body>
+</html>

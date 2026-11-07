@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mijn Eigen Flashcards</title>
+    <style>
+        body { 
+		font-family: Arial, sans-serif; 
+		display: flex;
+		justify-content: center;
+		align-items: center; 
+		min-height: 100vh; 
+		background: #f0f2f5;
+		margin: 0; 
+	}
+        .card-container { 
+		text-align: center; 
+	}
+        .card { width: 400px;
+		min-height: 200px;
+		background: white; 
+		border-radius: 12px; 
+		display: flex; 
+		justify-content: center; 
+		align-items: center; 
+		font-size: 18px; 
+		font-weight: bold; 
+		box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+		cursor: pointer; 
+		padding: 25px; 
+		user-select: none; 
+		transition: transform 0.2s;
+		text-align: center; 
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+	}
+	.card b { 
+		color: orange;
+	}
+        .card:active { transform: scale(0.98); }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="card" id="flashcard" onclick="flipCard()">Laad de eerste kaart hoofdstuk3 Computers...</div>
+    <button onclick="nextCard()">Volgende Kaart</button>
+</div>
+
+<script>
+    // Jouw database met vragen en antwoorden
+    const flashcards = [
+	{ 
+            vraag: "Wat zijn de bekendste computers", 
+            antwoord: "Smartphone, desktop-computers, tablet, laptop" 
+        },
+	{ 
+            vraag: "Wat zijn de 2 krachtigste computers?", 
+            antwoord: "supercomputer, mainframes" 
+        },
+	{ 
+            vraag: "Wat doet een supercomputer?", 
+            antwoord: "Maakt voornamelijk gebruik van een parallelle verwerking" 
+        },
+	{ 
+            vraag: "Wat is het voornaamste doeleinde van een mainframe?", 
+            antwoord: "miljoenen eenvoudige transacties en data tegelijkertijd verwerken" 
+        },
+	{ 
+            vraag: "Wat is een belangrijke eigenschap van de mainframe?", 
+            antwoord: "Dat deze zeer stabiel is" 
+        },
+	{ 
+            vraag: "Zet 5 computers op een rij, met krachtig en snelst op 1", 
+            antwoord: "Supercomputer, mainframe, server, personalcomputer, embeddedsystems"
+        },
+	{ 
+            vraag: "Wat is een server?", 
+            antwoord: "Een computer die een netwerk of internettoepassing mogelijk maakt." 
+        },
+	{ 
+            vraag: "2 voornaamste doelen van een server?", 
+            antwoord: "Servers voor opslagdata, servers doe website of webapplicatie mogelijk maken." 
+        },	{ 
+            vraag: "Wat is een personalcomputer?", 
+            antwoord: "Alle soorten computers voor persoonlijk gebruik" 
+        },
+	{ 
+            vraag: "Wat is een embedded system?", 
+            antwoord: "Apparaat waarbij de computer ingebed is." 
+        },	
+	{ 
+            vraag: "Zit bij een embeddedsystem de hardware en software in één apparaat?", 
+            antwoord: "ja" 
+        },	
+	{ 
+            vraag: "Wat zijn de 4 kenmerken van een embedded system?", 
+            antwoord: "onopvallendheid, betrouwbaarheid, zuinigheid, beperktheid" 
+        },	
+	{ 
+            vraag: "Waar staat IoT voor?", 
+            antwoord: "Internet of Things" 
+        },
+	{ 
+            vraag: "Noem 2 voorbeelden van toepassingen van IoT", 
+            antwoord: "Smartcity, domotica" 
+        },
+	{ 
+            vraag: "Wat houdt Domotica in?", 
+            antwoord: "embedded systems in en rond het gebouw die allerlei processen automatiseren." 
+        },
+	{ 
+            vraag: "Wat is de toepassing van IoT in smartcities?", 
+            antwoord: "Sensoren verzamelen informatie over de stad. voorbeeld legen van vuilnisbakken" 
+        },
+	{ 
+            vraag: "Hoe heb je als gebruiker toegang tot een domotica?", 
+            antwoord: "meestal via een app" 
+        },
+	{ 
+            vraag: "Voorbeelden acties van domotica", 
+            antwoord: "Het aanpassen van de temperatuur per kamer of inzicht in het energie gebruik." 
+        }
+    ];
+
+    let currentIndex = 0;
+    let showingAnswer = false;
+
+    function updateCard() {
+        const cardElement = document.getElementById("flashcard");
+        if (showingAnswer) {
+            cardElement.innerHTML = flashcards[currentIndex].antwoord; // innerHTML zodat de <b> tags werken
+            cardElement.style.background = "#e6f4ea"; // Groenachtig bij antwoord
+        } else {
+            cardElement.innerHTML = flashcards[currentIndex].vraag;
+            cardElement.style.background = "white";
+        }
+    }
+
+    function flipCard() {
+        showingAnswer = !showingAnswer;
+        updateCard();
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        showingAnswer = false;
+        updateCard();
+    }
+
+    // Start het spel
+    updateCard();
+</script>
+
+</body>
+</html>

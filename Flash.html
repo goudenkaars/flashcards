@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mijn Eigen Flashcards</title>
+    <style>
+        body { 
+		font-family: Arial, sans-serif; 
+		display: flex;
+		justify-content: center;
+		align-items: center; 
+		min-height: 100vh; 
+		background: #f0f2f5;
+		margin: 0; 
+	}
+        .card-container { 
+		text-align: center; 
+	}
+        .card { width: 400px;
+		min-height: 200px;
+		background: white; 
+		border-radius: 12px; 
+		display: flex; 
+		justify-content: center; 
+		align-items: center; 
+		font-size: 18px; 
+		font-weight: bold; 
+		box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+		cursor: pointer; 
+		padding: 25px; 
+		user-select: none; 
+		transition: transform 0.2s;
+		text-align: center; 
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+	}
+	.card b { 
+		color: orange;
+	}
+        .card:active { transform: scale(0.98); }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="card" id="flashcard" onclick="flipCard()">Laad de eerste kaart hoofdstuk1 lagen en interfaces...</div>
+    <button onclick="nextCard()">Volgende Kaart</button>
+</div>
+
+<script>
+    // Jouw database met vragen en antwoorden
+    const flashcards = [
+        { 
+            vraag: "Uit hoeveel lagen bestaat een apparaat?", 
+            antwoord: "Een apparaat bestaat uit 3 lagen: <b><u>Hardware</u></b> <b><u>Software-toepassingen</u></b>  <b><u>software-besturingssysteem</u></b>" 
+        },
+        { 
+            vraag: "Wat houdt de fysieke laag in?", 
+            antwoord: "Hardware van een apparaat, zoals camera, accu, touchscreen." 
+        },
+        { 
+            vraag: "Wat houdt de logische laag in?", 
+            antwoord: "De software die de hardware aanstuurt." 
+        },
+        { 
+            vraag: "Wat houdt de toepassingenlaag in?", 
+            antwoord: "De software die een app aanstuurt." 
+        },
+        { 
+            vraag: "Kan een software uit de toepassingenlaag direct contact maken met de fysieke laag?", 
+            antwoord: "Nee, een software uit de toepassingenlaag kan alleen contact maken met de fysieke laag via de software uit de logische laag." 
+        },
+        { 
+            vraag: "Stel je maakt een app en je wilt daarin een knop hebben, welke 2 dingen heb je hiervoor nodig?", 
+            antwoord: "Het noteren van alle eigenschappen van de knop en het schrijven van een Eventhandler." 
+        },
+        { 
+            vraag: "Wat is een Eventhandler?", 
+            antwoord: "Een stuk code dat een gebeurtenis (event) verwerkt." 
+        },
+        { 
+            vraag: "Wat zijn voorbeelden van Events voor een button?", 
+            antwoord: "Press, swipe, zoom." 
+        },
+        { 
+            vraag: "Wat zijn voorbeelden van mouse-events (voor je computer muis)?", 
+            antwoord: "Click, mouseover/mouseout." 
+        },
+        { 
+            vraag: "Wat zijn voorbeelden van een Keyboard-event?", 
+            antwoord: "Keyup (wordt geactiveerd als gebruiker toets loslaat), keydown (wordt geactiveerd als gebruiker toets indrukt)." 
+        },
+        { 
+            vraag: "Houdt het besturingssysteem bij wat de gebruiker allemaal doet?", 
+            antwoord: "Ja." 
+        },
+        { 
+            vraag: "Hoe werkt een connectie tussen de besturingslaag en de toepassingslaag?", 
+            antwoord: "Het besturingssysteem registreert de hardware-actie -> vertaalt dit naar een event -> geeft dit door aan de app -> waar de Eventhandler de specifieke taak uitvoert." 
+        },
+        { 
+            vraag: "Hoe heten de verbindingen tussen de verschillende lagen?", 
+            antwoord: "Interfaces." 
+        },
+        { 
+            vraag: "Wat is de naam van de elektronische verbindingen tussen de fysieke onderdelen?", 
+            antwoord: "Hardware-interfaces." 
+        },
+        { 
+            vraag: "Waar zijn deze verbindingen meestal geïntegreerd?", 
+            antwoord: "In een printplaat." 
+        },
+        { 
+            vraag: "Waar worden de onderdelen die onderling een zeer snelle verbinding nodig hebben geïntegreerd?", 
+            antwoord: "In een&nbsp;<b><u>chip</u></b>." 
+        },
+        { 
+            vraag: "Wat zorgt meestal voor een bekabelde verbinding tussen verschillende apparaten? (USB is de bekendste soort...)", 
+            antwoord: "Een <b><u>connector</u></b>." 
+        },
+        { 
+            vraag: "Wat is een bekend voorbeeld van een complete computer op een printplaat?", 
+            antwoord: "De Raspberry Pi." 
+        },
+        { 
+            vraag: "Wat is een bekend voorbeeld van interfaces tussen hard- en software (besturingssystemen)?", 
+            antwoord: "<b><u>Drivers<u></b>" 
+        },
+        { 
+            vraag: "Hoe wordt de communicatie tussen verschillende software-onderdelen genoemd?", 
+            antwoord: "<b><u>Software-interfaces</u></b>" 
+        },
+        { 
+            vraag: "Wat is de naam van deze software-interfaces?", 
+            antwoord: "<b><u>Application Programming Interfaces (API's)</u></b>" 
+        },  
+	{ 
+            vraag: "Noem 2 voorbeelden van functies van een API?", 
+            antwoord: "Grafische elementen(knoppen, tekstvelden), verbinding met het internet(altijd via API)." 
+        },
+	{ 
+            vraag: "Web-API", 
+            antwoord: "interface tussen de app en de database waarin alle gegevens zijn opgeslagen." 
+        },	
+	{ 
+            vraag: "Hoe wordt de communicatie binnen verschillende software-onderdelen genoemd?", 
+            antwoord: "<b><u>software-interfaces</u></b>" 
+        },
+	{ 
+            vraag: "Hoe noem je de verbinding tussen de gebruiker en de logische laag?", 
+            antwoord: "<b><u>Userinterface</u></b>." 
+        },
+	{ 
+            vraag: "Waar staat GUI voor?", 
+            antwoord: "Graphical User Interface" 
+        },
+	{ 
+            vraag: "Wat houdt een GUI in?", 
+            antwoord: "Een grafische verbinding tussen gebruiker en het apparaat" 
+        },
+	{ 
+            vraag: "Waar staat <b><u>VUI</u></b> voor?", 
+            antwoord: "Voice User interface" 
+        },
+	{ 
+            vraag: "Wat doet VUI?", 
+            antwoord: "Maakt stembediening van een apparaat mogelijk" 
+        },
+	{ 
+            vraag: "Voorbeeld van een VUI op Apple apparaten", 
+            antwoord: "Siri" 
+        },
+	{ 
+            vraag: "Waar staat CLI voor?", 
+            antwoord: "Command Line Interface" 
+        },
+	{ 
+            vraag: "remote", 
+            antwoord: "Iets op afstand aansturen/besturen" 
+        },
+	{ 
+            vraag: "Waarmee kun je een server remote aansturen?", 
+            antwoord: "Met een CLI" 
+        },
+	{ 
+            vraag: "", 
+            antwoord: "" 
+        }
+    ];
+
+    let currentIndex = 0;
+    let showingAnswer = false;
+
+    function updateCard() {
+        const cardElement = document.getElementById("flashcard");
+        if (showingAnswer) {
+            cardElement.innerHTML = flashcards[currentIndex].antwoord; // innerHTML zodat de <b> tags werken
+            cardElement.style.background = "#e6f4ea"; // Groenachtig bij antwoord
+        } else {
+            cardElement.innerHTML = flashcards[currentIndex].vraag;
+            cardElement.style.background = "white";
+        }
+    }
+
+    function flipCard() {
+        showingAnswer = !showingAnswer;
+        updateCard();
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        showingAnswer = false;
+        updateCard();
+    }
+
+    // Start het spel
+    updateCard();
+</script>
+
+</body>
+</html>

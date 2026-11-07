@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mijn Eigen Flashcards</title>
+    <style>
+        body { 
+		font-family: Arial, sans-serif; 
+		display: flex;
+		justify-content: center;
+		align-items: center; 
+		min-height: 100vh; 
+		background: #f0f2f5;
+		margin: 0; 
+	}
+        .card-container { 
+		text-align: center; 
+	}
+        .card { width: 400px;
+		min-height: 200px;
+		background: white; 
+		border-radius: 12px; 
+		display: flex; 
+		justify-content: center; 
+		align-items: center; 
+		font-size: 18px; 
+		font-weight: bold; 
+		box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+		cursor: pointer; 
+		padding: 25px; 
+		user-select: none; 
+		transition: transform 0.2s;
+		text-align: center; 
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+	}
+	.card b { 
+		color: orange;
+	}
+        .card:active { transform: scale(0.98); }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="card" id="flashcard" onclick="flipCard()">Laad de eerste kaart hoofdstuk2 Netwerken...</div>
+    <button onclick="nextCard()">Volgende Kaart</button>
+</div>
+
+<script>
+    // Jouw database met vragen en antwoorden
+    const flashcards = [
+        { 
+            vraag: "Waar staat <b><u>LAN</u></b> voor?", 
+            antwoord: "Local Area Network" 
+        },
+        { 
+            vraag: "Waar gebruik je voornamelijk LAN?", 
+            antwoord: "Een netwerk binnen een gebouw." 
+        },
+        { 
+            vraag: "Welke vormen van LAN verbinding heb je?", 
+            antwoord: "draadloos-<b><u>wifi</u></b> of bedraad-netwerkkabel" 
+        },
+        { 
+            vraag: "3 lagen netwerk", 
+            antwoord: "Fysiekelaag, logischelaag, toepassingenlaag" 
+        },
+        { 
+            vraag: "voorbeelden van hardware kabels", 
+            antwoord: "Netwerkkabels, telefoonkabels, glasvezelkabels" 
+        },
+        { 
+            vraag: "Voorbeelden van signaalomvormers", 
+            antwoord: "Modems, zenders, ontvangers" 
+        },
+        { 
+            vraag: "Wat doen routers en switches?", 
+            antwoord: "Dit zijn apparaten die de datastroom regelen" 
+        },
+        { 
+            vraag: "Wat zijn servers?", 
+            antwoord: "Apparaten waarop een netwerkservice draait." 
+        },
+        { 
+            vraag: "Wat is de functie van een DNS-server?", 
+            antwoord: "Die houdt bij waar de websites te vinden zijn" 
+        },
+        { 
+            vraag: "Wat zijn Clients?", 
+            antwoord: "apparaten van netwerkgebruikers" 
+        },
+        { 
+            vraag: "Wat behoort tot de toepassingenlaag?", 
+            antwoord: "Alle websites en (web)applicaties die gebruik maken van internet/ lokaalnetwerk." 
+        },
+        { 
+            vraag: "Waaruit bestaat de fysieke laag bij clients?", 
+            antwoord: "Het apparaat van de gebruiker" 
+        },
+        { 
+            vraag: "Waaruit bestaat de fysieke laag bij servers?", 
+            antwoord: "Computers die dienen als servers." 
+        },
+        { 
+            vraag: "Waaruit bestaat de logsiche laag bij clients?", 
+            antwoord: "Besturingssysteem webbrowser" 
+        },
+        { 
+            vraag: "Waaruit bestaat de logische laag bij servers?", 
+            antwoord: "Software van de webserver en  databasemanagement-sofware"
+        },
+        { 
+            vraag: "Waaruit bestaat de toepassingenlaag bij een server?", 
+            antwoord: "Website of webapplicatie" 
+        },
+        { 
+            vraag: "Wat doet de software van de webserver?", 
+            antwoord: "Handeld verzoeken van clients af en voert programmacodes uit(eventhandlers)" 
+        },
+        { 
+            vraag: "Wat is een belangrijk onderdeel van de logische laag in een netwerk?", 
+            antwoord: "Webbrowser" 
+        },
+	{ 
+            vraag: "Waarom is een webbrowser een belangrijk onderdeel van de logische laag?", 
+            antwoord: "Werkt als een besturingssysteem voor websites en -applicaties" 
+        },
+	{ 
+            vraag: "Wat doet de software van de webserver?", 
+            antwoord: "Door uitvoeren programmacode verschijnt de apllicatie op je scherm" 
+        },
+	{ 
+            vraag: "Wat doet een web-API?", 
+            antwoord: "Verzamelt en verwerkt de benodigde informatie uit één of meerdere databases" 
+        },
+	{ 
+            vraag: "Kan al deze software net als bij kleine websites op één apparaat draaien?", 
+            antwoord: "Nee, bij grotere toepassingen is er veel software op verschillende hardware actief" 
+        },
+	{ 
+            vraag: "", 
+            antwoord: "" 
+        }
+    ];
+
+    let currentIndex = 0;
+    let showingAnswer = false;
+
+    function updateCard() {
+        const cardElement = document.getElementById("flashcard");
+        if (showingAnswer) {
+            cardElement.innerHTML = flashcards[currentIndex].antwoord; // innerHTML zodat de <b> tags werken
+            cardElement.style.background = "#e6f4ea"; // Groenachtig bij antwoord
+        } else {
+            cardElement.innerHTML = flashcards[currentIndex].vraag;
+            cardElement.style.background = "white";
+        }
+    }
+
+    function flipCard() {
+        showingAnswer = !showingAnswer;
+        updateCard();
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        showingAnswer = false;
+        updateCard();
+    }
+
+    // Start het spel
+    updateCard();
+</script>
+
+</body>
+</html>
